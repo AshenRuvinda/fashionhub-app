@@ -1,10 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Menu, Search, Home as HomeIcon, ShoppingCart, Settings } from 'lucide-react';
+import { Search, Home as HomeIcon, ShoppingCart, Settings, Menu } from 'lucide-react';
 import { useProducts } from '../context/ProductsContext';
 import { useCart } from '../context/CartContext';
 import CategoryTabs from '../components/home/CategoryTabs';
 import ProductGrid from '../components/home/ProductGrid';
+import Navbar from '../components/common/Navbar'; // Import the enhanced Navbar
 
 export default function Home() {
   const navigate = useNavigate();
@@ -21,19 +22,44 @@ export default function Home() {
     addToCart(product, 'L', 1, product.colors?.[0] || 'Default');
   };
 
+  const handleMenuClick = () => {
+    // Handle menu click - you can implement drawer/sidebar here
+    console.log('Menu clicked');
+  };
+
+  const handleSearchClick = () => {
+    // Navigate to search page or open search modal
+    navigate('/search');
+  };
+
   const cartItemsCount = getTotalItems();
+
+  // Custom left icon for the navbar (Menu + Search)
+  const LeftNavContent = () => (
+    <div className="flex items-center gap-3">
+      <button 
+        onClick={handleMenuClick}
+        className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+      >
+        <Menu className="w-6 h-6 text-gray-700" />
+      </button>
+      <button 
+        onClick={handleSearchClick}
+        className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
+      >
+        <Search className="w-5 h-5 text-gray-600" />
+      </button>
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Menu className="w-6 h-6" />
-          <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
-            <Search className="w-5 h-5" />
-          </div>
-        </div>
-      </div>
+      {/* Enhanced Navbar */}
+      <Navbar
+        leftContent={<LeftNavContent />}
+        showNotification={false}
+        className="px-6"
+      />
 
       {/* Main Content */}
       <div className="p-6">
@@ -75,7 +101,10 @@ export default function Home() {
             </div>
             <span className="text-xs text-orange-500">Home</span>
           </button>
-          <button className="flex flex-col items-center gap-1">
+          <button 
+            onClick={handleSearchClick}
+            className="flex flex-col items-center gap-1"
+          >
             <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
               <Search className="w-5 h-5 text-gray-400" />
             </div>
