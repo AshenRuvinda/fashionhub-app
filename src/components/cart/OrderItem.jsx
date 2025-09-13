@@ -1,16 +1,20 @@
 import React from 'react';
-import { Plus, Minus } from 'lucide-react';
+import { Plus, Minus, Trash2 } from 'lucide-react';
 import Card from '../common/Card';
 
 const OrderItem = ({ 
   item, 
   onUpdateQuantity,
+  onRemove,
   className = '' 
 }) => {
   const getItemImage = (type) => {
     const colors = {
       shirt1: 'from-orange-200 to-orange-300',
-      coat: 'from-yellow-200 to-yellow-300'
+      shirt2: 'from-orange-200 to-orange-300',
+      coat: 'from-yellow-200 to-yellow-300',
+      court: 'from-red-200 to-red-300',
+      court2: 'from-yellow-200 to-yellow-300'
     };
     return colors[type] || 'from-gray-200 to-gray-300';
   };
@@ -31,25 +35,39 @@ const OrderItem = ({
         </div>
 
         {/* Quantity Controls */}
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => onUpdateQuantity(item.id, -1)}
-            className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
-          >
-            <Minus className="w-4 h-4" />
-          </button>
-          <span className="font-semibold">{item.quantity}x</span>
-          <button
-            onClick={() => onUpdateQuantity(item.id, 1)}
-            className="w-8 h-8 rounded-full bg-orange-500 text-white flex items-center justify-center hover:bg-orange-600 transition-colors"
-          >
-            <Plus className="w-4 h-4" />
-          </button>
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => onUpdateQuantity(item.id, -1)}
+              className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
+              disabled={item.quantity <= 1}
+            >
+              <Minus className="w-4 h-4" />
+            </button>
+            <span className="font-semibold min-w-[30px] text-center">{item.quantity}x</span>
+            <button
+              onClick={() => onUpdateQuantity(item.id, 1)}
+              className="w-8 h-8 rounded-full bg-orange-500 text-white flex items-center justify-center hover:bg-orange-600 transition-colors"
+            >
+              <Plus className="w-4 h-4" />
+            </button>
+          </div>
+          
+          {/* Remove Button */}
+          {onRemove && (
+            <button
+              onClick={onRemove}
+              className="w-8 h-8 rounded-full bg-red-100 text-red-500 flex items-center justify-center hover:bg-red-200 transition-colors ml-2"
+              title="Remove item"
+            >
+              <Trash2 className="w-4 h-4" />
+            </button>
+          )}
         </div>
 
         {/* Price */}
         <div className="text-right">
-          <p className="font-bold text-gray-900">${item.price}</p>
+          <p className="font-bold text-gray-900">${item.price.toFixed(2)}</p>
         </div>
       </div>
     </Card>

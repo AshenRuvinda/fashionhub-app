@@ -1,112 +1,128 @@
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, MapPin, Truck, Plus } from 'lucide-react';
+import { useCart } from '../context/CartContext';
+import Navbar from '../components/common/Navbar';
+import AddressCard from '../components/checkout/AddressCard';
+import PaymentMethods from '../components/checkout/PaymentMethods';
+import SummaryCard from '../components/checkout/SummaryCard';
+import Button from '../components/common/Button';
 
 export default function Checkout() {
   const navigate = useNavigate();
+  const { getCartSummary, clearCart, items } = useCart();
+  const [isProcessing, setIsProcessing] = useState(false);
+  
+  const summary = getCartSummary();
 
-  const orderSummary = {
-    totalItems: 3,
-    totalPrice: 1116.00,
-    deliveryFee: 12.00,
-    finalTotal: 1126.00
+  const address = {
+    line1: '25A Housing Estate,',
+    line2: 'Sylhet',
+    deliveryTime: 'Delivered in next 7 days'
   };
+
+  const handleChangeAddress = () => {
+    // Address change logic here
+    console.log('Change address clicked');
+  };
+
+  const handleAddVoucher = () => {
+    // Add voucher logic here
+    console.log('Add voucher clicked');
+  };
+
+  const handleCheckoutNow = () => {
+    // Checkout logic here - redirect back to cart to review
+    navigate('/cart');
+  };
+
+  const handlePayNow = async () => {
+    if (items.length === 0) {
+      alert('Your cart is empty!');
+      return;
+    }
+
+    setIsProcessing(true);
+    
+    try {
+      // Simulate payment processing
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Clear cart after successful payment
+      clearCart();
+      
+      // Show success message
+      alert(`Payment successful! Order total: ${summary.finalTotal.toFixed(2)}\nOrder ID: #${Date.now()}`);
+      
+      // Redirect to home
+      navigate('/home');
+    } catch (error) {
+      alert('Payment failed. Please try again.');
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  // Redirect if cart is empty
+  if (items.length === 0) {
+    navigate('/cart');
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white px-6 py-4 flex items-center justify-between">
-        <button 
-          onClick={() => navigate('/cart')}
-          className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center"
-        >
-          <ArrowLeft className="w-5 h-5" />
-        </button>
-        <span className="font-semibold text-gray-900">Checkout</span>
-        <div className="w-10 h-10"></div>
-      </div>
+      <Navbar
+        title="Checkout"
+        showBack={true}
+      />
 
       <div className="p-6">
         {/* Delivery Address */}
-        <div className="bg-white rounded-2xl p-6 mb-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="font-semibold text-gray-900">Delivery Address</h2>
-            <button className="text-orange-500 text-sm font-medium">Change</button>
-          </div>
-          
-          <div className="flex items-start gap-3">
-            <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
-              <MapPin className="w-5 h-5 text-orange-500" />
-            </div>
-            <div className="flex-1">
-              <p className="font-medium text-gray-900">25A Housing Estate,</p>
-              <p className="font-medium text-gray-900 mb-1">Sylhet</p>
-              <div className="flex items-center gap-2 text-sm text-gray-600">
-                <Truck className="w-4 h-4" />
-                <span>Delivered in next 7 days</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        <AddressCard
+          address={address}
+          onChangeAddress={handleChangeAddress}
+          className="mb-6"
+        />
 
         {/* Payment Method */}
-        <div className="bg-white rounded-2xl p-6 mb-6">
-          <h2 className="font-semibold text-gray-900 mb-4">Payment Method</h2>
-          
-          {/* Payment Icons Row */}
-          <div className="flex gap-3 mb-4">
-            <div className="w-12 h-8 bg-blue-600 rounded flex items-center justify-center text-white text-xs font-bold">VISA</div>
-            <div className="w-12 h-8 bg-blue-400 rounded flex items-center justify-center text-white text-xs font-bold">AMEX</div>
-            <div className="w-12 h-8 bg-red-500 rounded flex items-center justify-center text-white text-xs font-bold">MC</div>
-            <div className="w-12 h-8 bg-blue-700 rounded flex items-center justify-center text-white text-xs">PP</div>
-            <div className="w-12 h-8 bg-black rounded flex items-center justify-center text-white text-xs">AP</div>
-          </div>
-
-          <button className="w-full bg-orange-100 text-orange-600 py-3 rounded-xl font-medium flex items-center justify-center gap-2">
-            <Plus className="w-5 h-5" />
-            Add Voucher
-          </button>
-
-          <div className="mt-4 p-3 bg-red-50 rounded-lg">
-            <p className="text-red-600 text-sm">
-              <strong>NOTE:</strong> Use your order id at the payment. Your id #154619 if you forget to put your order id we can&apos;t confirm the payment.
-            </p>
-          </div>
-        </div>
+        <PaymentMethods
+          onAddVoucher={handleAddVoucher}
+          className="mb-6"
+        />
 
         {/* Order Summary */}
-        <div className="bg-white rounded-2xl p-6 mb-6">
-          <div className="space-y-3 mb-4">
-            <div className="flex justify-between">
-              <span className="text-gray-600">Total Items ({orderSummary.totalItems})</span>
-              <span className="font-semibold">${orderSummary.totalPrice.toFixed(2)}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-600">Standard Delivery</span>
-              <span className="font-semibold">${orderSummary.deliveryFee.toFixed(2)}</span>
-            </div>
-            <hr className="border-gray-200" />
-            <div className="flex justify-between">
-              <span className="font-semibold text-gray-900">Total Payment</span>
-              <span className="font-bold text-gray-900">${orderSummary.finalTotal.toFixed(2)}</span>
-            </div>
-          </div>
-        </div>
+        <SummaryCard
+          summary={summary}
+          className="mb-6"
+        />
 
         {/* Action Buttons */}
         <div className="flex gap-4">
-          <button 
-            onClick={() => navigate('/cart')}
-            className="flex-1 bg-orange-500 text-white py-4 rounded-full font-semibold hover:bg-orange-600 transition-colors"
+          <Button 
+            onClick={handleCheckoutNow}
+            variant="outline"
+            className="flex-1"
+            size="lg"
+            disabled={isProcessing}
           >
-            Checkout Now
-          </button>
-          <button 
-            onClick={() => alert('Payment processing...')}
-            className="flex-1 bg-orange-500 text-white py-4 rounded-full font-semibold hover:bg-orange-600 transition-colors"
+            Review Cart
+          </Button>
+          <Button 
+            onClick={handlePayNow}
+            className="flex-1"
+            size="lg"
+            disabled={isProcessing}
           >
-            Pay Now
-          </button>
+            {isProcessing ? 'Processing...' : 'Pay Now'}
+          </Button>
         </div>
+        
+        {isProcessing && (
+          <div className="mt-4 flex items-center justify-center">
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-orange-500"></div>
+            <span className="ml-2 text-gray-600">Processing your payment...</span>
+          </div>
+        )}
       </div>
     </div>
   );

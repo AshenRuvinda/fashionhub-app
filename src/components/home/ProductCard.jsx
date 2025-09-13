@@ -20,6 +20,13 @@ const ProductCard = ({
     return colors[type] || 'from-gray-200 to-gray-300';
   };
 
+  const formatPrice = (price) => {
+    if (typeof price === 'number') {
+      return `$${price.toFixed(2)}`;
+    }
+    return price;
+  };
+
   return (
     <Card 
       hover 
@@ -47,7 +54,7 @@ const ProductCard = ({
       
       {/* Product Info */}
       <h3 className="font-semibold text-gray-900 text-sm mb-1">{product.name}</h3>
-      <PriceTag price={product.price} size="sm" />
+      <PriceTag price={formatPrice(product.price)} size="sm" />
     </Card>
   );
 };

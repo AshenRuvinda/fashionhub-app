@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 
 const CartContext = createContext();
 
@@ -14,11 +14,10 @@ export const CartProvider = ({ children }) => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    // Load cart from localStorage on mount
-    const savedCart = localStorage.getItem('fashionhub_cart');
-    if (savedCart) {
-      setItems(JSON.parse(savedCart));
-    }
+    // In a real app, load cart from localStorage
+    // For now, we'll manage cart state in memory
+    const savedCart = JSON.parse(localStorage.getItem('fashionhub_cart') || '[]');
+    setItems(savedCart);
   }, []);
 
   useEffect(() => {
@@ -26,15 +25,15 @@ export const CartProvider = ({ children }) => {
     localStorage.setItem('fashionhub_cart', JSON.stringify(items));
   }, [items]);
 
-  const addToCart = (product, size = 'L', quantity = 1) => {
+  const addToCart = (product, size = 'L', quantity = 1, color = 'Default') => {
     setItems(prevItems => {
       const existingItem = prevItems.find(
-        item => item.id === product.id && item.size === size
+        item => item.id === product.id && item.size === size && item.color === color
       );
 
       if (existingItem) {
         return prevItems.map(item =>
-          item.id === product.id && item.size === size
+          item.id === product.id && item.size === size && item.color === color
             ? { ...item, quantity: item.quantity + quantity }
             : item
         );
@@ -42,11 +41,11 @@ export const CartProvider = ({ children }) => {
         return [...prevItems, {
           id: product.id,
           name: product.name,
-          price: parseFloat(product.price.replace('$', '')),
+          price: typeof product.price === 'number' ? product.price : parseFloat(product.price.toString().replace('$', '')),
           size: size,
           quantity: quantity,
           image: product.image || 'shirt1',
-          color: 'Yellow' // Default color
+          color: color
         }];
       }
     });
