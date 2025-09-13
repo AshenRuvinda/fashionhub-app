@@ -3,7 +3,6 @@ import { User } from 'lucide-react';
 import { useProducts } from '../context/ProductsContext';
 import { useCart } from '../context/CartContext';
 import ProductGrid from '../components/home/ProductGrid';
-import BottomNavigation from '../components/common/BottomNavigation';
 
 // Enhanced Category Tabs Component
 const EnhancedCategoryTabs = ({ 
@@ -89,7 +88,7 @@ export default function Home() {
       </div>
 
       {/* Main Content */}
-      <div className="px-6 pb-20">
+      <div className="px-6 pb-20"> {/* pb-20 for bottom navigation space */}
         {/* Explore Section */}
         <div className="mb-6 mt-6">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Explore</h1>
@@ -129,9 +128,6 @@ export default function Home() {
           />
         )}
       </div>
-
-      {/* Bottom Navigation */}
-      <BottomNavigation />
     </div>
   );
 }

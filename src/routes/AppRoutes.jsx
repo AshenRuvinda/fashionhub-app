@@ -1,5 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { AuthProvider } from '../context/AuthContext';
+import { CartProvider } from '../context/CartContext';
+import { ProductsProvider } from '../context/ProductsContext';
+import BottomNavigation from '../components/common/BottomNavigation';
 import Home from '../pages/Home';
 import Onboarding from '../pages/Onboarding';
 import Details from '../pages/Details';
@@ -17,9 +21,17 @@ function RouteLogger() {
   return null;
 }
 
-export default function AppRoutes() {
+// App content with conditional bottom navigation
+function AppContent() {
+  const location = useLocation();
+  
+  // Pages that should NOT show the bottom navigation
+  const pagesWithoutBottomNav = ['/onboarding'];
+  
+  const shouldShowBottomNav = !pagesWithoutBottomNav.includes(location.pathname);
+
   return (
-    <Router>
+    <div className="min-h-screen bg-gray-50">
       <RouteLogger />
       <Routes>
         <Route path="/" element={<Navigate to="/onboarding" replace />} />
@@ -45,6 +57,23 @@ export default function AppRoutes() {
           </div>
         } />
       </Routes>
+      
+      {/* Global Bottom Navigation - shows on all pages except onboarding */}
+      {shouldShowBottomNav && <BottomNavigation />}
+    </div>
+  );
+}
+
+export default function AppRoutes() {
+  return (
+    <Router>
+      <AuthProvider>
+        <ProductsProvider>
+          <CartProvider>
+            <AppContent />
+          </CartProvider>
+        </ProductsProvider>
+      </AuthProvider>
     </Router>
   );
 }

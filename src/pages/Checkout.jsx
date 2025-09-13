@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import Navbar from '../components/common/Navbar';
-import BottomNavigation from '../components/common/BottomNavigation';
 import AddressCard from '../components/checkout/AddressCard';
 import PaymentMethods from '../components/checkout/PaymentMethods';
 import SummaryCard from '../components/checkout/SummaryCard';
@@ -82,7 +81,7 @@ export default function Checkout() {
         onBackClick={handleBackClick}
       />
 
-      <div className="p-6 pb-24"> {/* Added bottom padding for navigation */}
+      <div className="p-6 pb-24"> {/* pb-24 for bottom navigation space */}
         {/* Delivery Address */}
         <AddressCard
           address={address}
@@ -130,8 +129,6 @@ export default function Checkout() {
           </div>
         )}
       </div>
-
-      <BottomNavigation />
     </div>
   );
 }
