@@ -11,7 +11,7 @@ export const products = [
       sizes: ['S', 'M', 'L', 'XL', 'XXL'],
       rating: 4.5,
       reviews: 128,
-      description: 'Premium quality shirt with beautiful floral pattern.',
+      description: 'Premium quality shirt with beautiful floral pattern. Made from soft, breathable fabric for all-day comfort.',
       inStock: true
     },
     {
@@ -25,7 +25,7 @@ export const products = [
       sizes: ['S', 'M', 'L', 'XL', 'XXL'],
       rating: 4.7,
       reviews: 95,
-      description: 'Classic leather court jacket for sophisticated look.',
+      description: 'Classic leather court jacket for sophisticated look. Genuine leather with premium finish and modern fit.',
       inStock: true
     },
     {
@@ -39,7 +39,7 @@ export const products = [
       sizes: ['S', 'M', 'L', 'XL'],
       rating: 4.3,
       reviews: 73,
-      description: 'Comfortable casual shirt for everyday wear.',
+      description: 'Comfortable casual shirt for everyday wear. Perfect blend of style and comfort for any occasion.',
       inStock: true
     },
     {
@@ -53,7 +53,7 @@ export const products = [
       sizes: ['M', 'L', 'XL', 'XXL'],
       rating: 4.6,
       reviews: 112,
-      description: 'Designer leather jacket with premium finish.',
+      description: 'Designer leather jacket with premium finish. Crafted with attention to detail for the modern gentleman.',
       inStock: true
     },
     {
@@ -67,26 +67,54 @@ export const products = [
       sizes: ['S', 'M', 'L', 'XL'],
       rating: 4.4,
       reviews: 89,
-      description: 'Classic vintage style denim jacket.',
+      description: 'Classic vintage style denim jacket. Timeless design with durable construction and comfortable fit.',
       inStock: true
     }
   ];
   
   export const categories = ['All', 'Men', 'Women', 'Kids', 'Unisex'];
   
-  // Helper functions
+  // Helper functions with improved error handling
   export const getProductById = (id) => {
-    return products.find(product => product.id === parseInt(id));
+    console.log('Looking for product with ID:', id, 'Type:', typeof id);
+    
+    // Convert string ID to number for comparison
+    const numericId = parseInt(id);
+    
+    if (isNaN(numericId)) {
+      console.log('Invalid ID provided:', id);
+      return null;
+    }
+    
+    const product = products.find(product => product.id === numericId);
+    console.log('Found product:', product);
+    
+    return product;
   };
   
   export const getProductsByCategory = (category) => {
+    console.log('Filtering products by category:', category);
+    
     if (category === 'All') return products;
-    return products.filter(product => product.category === category);
+    
+    const filtered = products.filter(product => product.category === category);
+    console.log('Filtered products:', filtered.length);
+    
+    return filtered;
   };
   
   export const searchProducts = (query) => {
-    return products.filter(product =>
-      product.name.toLowerCase().includes(query.toLowerCase()) ||
-      product.category.toLowerCase().includes(query.toLowerCase())
+    console.log('Searching products with query:', query);
+    
+    if (!query || query.trim() === '') return products;
+    
+    const searchTerm = query.toLowerCase().trim();
+    const results = products.filter(product =>
+      product.name.toLowerCase().includes(searchTerm) ||
+      product.category.toLowerCase().includes(searchTerm) ||
+      (product.description && product.description.toLowerCase().includes(searchTerm))
     );
+    
+    console.log('Search results:', results.length);
+    return results;
   };

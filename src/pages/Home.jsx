@@ -33,7 +33,6 @@ const EnhancedCategoryTabs = ({
 
 // Main Home Component
 export default function Home() {
-  // Use your existing context hooks
   const { 
     filteredProducts, 
     categories, 
@@ -44,21 +43,29 @@ export default function Home() {
   const { addToCart } = useCart();
 
   const handleAddToCart = (product) => {
+    console.log('Adding product to cart from home:', product.name);
     addToCart(product, 'L', 1, product.colors?.[0] || 'Default');
+    
+    // Show success message
+    alert(`Added ${product.name} to cart!`);
   };
 
   const handleMenuClick = () => {
     console.log('Menu clicked');
+    // You can add navigation to menu/settings page here
   };
 
   const handleProfileClick = () => {
     console.log('Profile clicked');
+    // You can add navigation to profile page here
   };
+
+  console.log('Home page rendering with products:', filteredProducts?.length);
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Top Navigation Bar */}
-      <div className="bg-white px-6 py-4 flex items-center justify-between">
+      <div className="bg-white px-6 py-4 flex items-center justify-between shadow-sm">
         {/* Left - Menu Icon (4-dot grid) */}
         <button 
           onClick={handleMenuClick}
@@ -84,7 +91,7 @@ export default function Home() {
       {/* Main Content */}
       <div className="px-6 pb-20">
         {/* Explore Section */}
-        <div className="mb-6 mt-4">
+        <div className="mb-6 mt-6">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Explore</h1>
           <p className="text-gray-500 text-base">Best trendy collection!</p>
         </div>
@@ -97,13 +104,25 @@ export default function Home() {
           className="mb-6"
         />
 
+        {/* Products Count */}
+        {!isLoading && filteredProducts && (
+          <div className="mb-4">
+            <p className="text-sm text-gray-600">
+              {filteredProducts.length} product{filteredProducts.length !== 1 ? 's' : ''} found
+            </p>
+          </div>
+        )}
+
         {/* Loading State */}
         {isLoading ? (
           <div className="flex justify-center items-center h-40">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500 mx-auto mb-4"></div>
+              <p className="text-gray-600">Loading products...</p>
+            </div>
           </div>
         ) : (
-          /* Product Grid - Using your existing component with navigation */
+          /* Product Grid */
           <ProductGrid
             products={filteredProducts}
             onAddToCart={handleAddToCart}

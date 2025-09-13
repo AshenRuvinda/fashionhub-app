@@ -27,11 +27,31 @@ const ProductCard = ({
     return price;
   };
 
+  const handleCardClick = (e) => {
+    // Prevent navigation when clicking the add to cart button
+    if (e.target.closest('.add-to-cart-btn')) {
+      return;
+    }
+    
+    console.log('Product card clicked:', product.name, 'ID:', product.id);
+    if (onClick) {
+      onClick();
+    }
+  };
+
+  const handleAddToCart = (e) => {
+    e.stopPropagation(); // Prevent card click
+    console.log('Add to cart clicked:', product.name);
+    if (onAddToCart) {
+      onAddToCart(product);
+    }
+  };
+
   return (
     <Card 
       hover 
-      onClick={onClick}
-      className={`p-4 ${className}`}
+      onClick={handleCardClick}
+      className={`p-4 cursor-pointer ${className}`}
     >
       {/* Product Image */}
       <div className={`w-full h-32 bg-gradient-to-br ${getProductImage(product.image)} rounded-xl mb-3 relative`}>
@@ -42,19 +62,48 @@ const ProductCard = ({
         
         {/* Add to Cart Button */}
         <button 
-          onClick={(e) => {
-            e.stopPropagation();
-            onAddToCart && onAddToCart(product);
-          }}
-          className="absolute bottom-2 right-2 w-8 h-8 bg-black text-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
+          onClick={handleAddToCart}
+          className="add-to-cart-btn absolute bottom-2 right-2 w-8 h-8 bg-black text-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors z-10"
+          title="Add to cart"
         >
           <Plus className="w-4 h-4" />
         </button>
       </div>
       
       {/* Product Info */}
-      <h3 className="font-semibold text-gray-900 text-sm mb-1">{product.name}</h3>
-      <PriceTag price={formatPrice(product.price)} size="sm" />
+      <div className="space-y-1">
+        <h3 className="font-semibold text-gray-900 text-sm line-clamp-2 mb-1" title={product.name}>
+          {product.name}
+        </h3>
+        
+        <div className="flex items-center justify-between">
+          <PriceTag price={formatPrice(product.price)} size="sm" />
+          
+          {/* Category badge */}
+          <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+            {product.category}
+          </span>
+        </div>
+        
+        {/* Rating (if available) */}
+        {product.rating && (
+          <div className="flex items-center gap-1">
+            <div className="flex">
+              {[...Array(5)].map((_, i) => (
+                <span
+                  key={i}
+                  className={`text-xs ${
+                    i < Math.floor(product.rating) ? 'text-orange-400' : 'text-gray-300'
+                  }`}
+                >
+                  ★
+                </span>
+              ))}
+            </div>
+            <span className="text-xs text-gray-500">({product.rating})</span>
+          </div>
+        )}
+      </div>
     </Card>
   );
 };

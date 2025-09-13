@@ -22,35 +22,50 @@ export default function Details() {
   const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
+    console.log('Details page loaded with ID:', id);
+    
     const foundProduct = getProduct(id);
+    console.log('Found product:', foundProduct);
+    
     if (foundProduct) {
       setProduct(foundProduct);
       setSelectedColor(foundProduct.colors?.[0] || 'Default');
       setIsLoading(false);
     } else {
-      // Product not found, redirect to home
-      navigate('/home');
+      console.log('Product not found, redirecting to home');
+      // Add a small delay to prevent immediate redirect during navigation
+      setTimeout(() => {
+        navigate('/home', { replace: true });
+      }, 100);
     }
   }, [id, getProduct, navigate]);
 
   const handleAddToCart = () => {
     if (product) {
+      console.log('Adding to cart:', product.name, selectedSize, selectedColor);
       addToCart(product, selectedSize, 1, selectedColor);
+      
+      // Show success message
+      alert(`Added ${product.name} (Size: ${selectedSize}) to cart!`);
+      
+      // Navigate to cart
       navigate('/cart');
     }
   };
 
   const handleBackClick = () => {
+    console.log('Back button clicked');
     navigate('/home');
   };
 
   const handleFavoriteClick = () => {
     setIsFavorite(!isFavorite);
-    // You can add logic here to save to favorites
+    console.log('Favorite toggled:', !isFavorite);
   };
 
   const handleColorSelect = (color) => {
     setSelectedColor(color);
+    console.log('Color selected:', color);
   };
 
   const getColorClass = (color) => {
@@ -72,7 +87,10 @@ export default function Details() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading product details...</p>
+        </div>
       </div>
     );
   }
@@ -80,7 +98,15 @@ export default function Details() {
   if (!product) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <p>Product not found</p>
+        <div className="text-center">
+          <p className="text-gray-600 mb-4">Product not found</p>
+          <button 
+            onClick={() => navigate('/home')}
+            className="bg-orange-500 text-white px-6 py-2 rounded-full"
+          >
+            Back to Home
+          </button>
+        </div>
       </div>
     );
   }
@@ -128,27 +154,35 @@ export default function Details() {
 
           <h1 className="text-2xl font-bold text-gray-900 mb-4">{product.name}</h1>
           
+          {/* Description */}
+          {product.description && (
+            <p className="text-gray-600 mb-4">{product.description}</p>
+          )}
+          
           {/* Color Options */}
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">Color</h3>
-            <div className="flex gap-2">
-              {product.colors?.map((color) => (
-                <button
-                  key={color}
-                  onClick={() => handleColorSelect(color)}
-                  className={`w-8 h-8 ${getColorClass(color)} rounded-full border-2 ${
-                    selectedColor === color 
-                      ? 'border-orange-500 ring-2 ring-orange-200' 
-                      : 'border-gray-300'
-                  } flex items-center justify-center transition-all`}
-                >
-                  {selectedColor === color && (
-                    <div className="w-3 h-3 bg-white rounded-full opacity-80"></div>
-                  )}
-                </button>
-              ))}
+          {product.colors && product.colors.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Color</h3>
+              <div className="flex gap-2">
+                {product.colors.map((color) => (
+                  <button
+                    key={color}
+                    onClick={() => handleColorSelect(color)}
+                    className={`w-8 h-8 ${getColorClass(color)} rounded-full border-2 ${
+                      selectedColor === color 
+                        ? 'border-orange-500 ring-2 ring-orange-200' 
+                        : 'border-gray-300'
+                    } flex items-center justify-center transition-all`}
+                    title={color}
+                  >
+                    {selectedColor === color && (
+                      <div className="w-3 h-3 bg-white rounded-full opacity-80"></div>
+                    )}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         {/* Size Selection */}
@@ -164,6 +198,15 @@ export default function Details() {
           price={`$${product.price.toFixed(2)}`}
           onAddToCart={handleAddToCart}
         />
+        
+        {/* Original Price (if exists) */}
+        {product.originalPrice && product.originalPrice > product.price && (
+          <div className="mt-2 text-center">
+            <span className="text-gray-500 line-through text-sm">
+              Original: ${product.originalPrice.toFixed(2)}
+            </span>
+          </div>
+        )}
       </div>
 
       <BottomNavigation />
