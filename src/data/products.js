@@ -2,7 +2,7 @@
 export const products = [
     {
       id: 1,
-      name: 'Premium Togerine Shirt',
+      name: 'Premium Togerine Shirt eka',
       price: 257.85,
       originalPrice: 300.00,
       image: 'shirt1',
