@@ -20,6 +20,10 @@ export default function Checkout() {
     deliveryTime: 'Delivered in next 7 days'
   };
 
+  const handleBackClick = () => {
+    navigate('/cart');
+  };
+
   const handleChangeAddress = () => {
     // Address change logic here
     console.log('Change address clicked');
@@ -51,7 +55,7 @@ export default function Checkout() {
       clearCart();
       
       // Show success message
-      alert(`Payment successful! Order total: ${summary.finalTotal.toFixed(2)}\nOrder ID: #${Date.now()}`);
+      alert(`Payment successful! Order total: $${summary.finalTotal.toFixed(2)}\nOrder ID: #${Date.now()}`);
       
       // Redirect to home
       navigate('/home');
@@ -70,10 +74,11 @@ export default function Checkout() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
+      {/* Enhanced Header */}
       <Navbar
         title="Checkout"
         showBack={true}
+        onBackClick={handleBackClick}
       />
 
       <div className="p-6">

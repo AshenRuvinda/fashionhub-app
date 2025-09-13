@@ -21,12 +21,17 @@ export default function Cart() {
     removeFromCart(id, size);
   };
 
+  const handleBackClick = () => {
+    navigate('/home');
+  };
+
   if (items.length === 0) {
     return (
       <div className="min-h-screen bg-gray-50">
         <Navbar
           title="Cart"
           showBack={true}
+          onBackClick={handleBackClick}
         />
         
         <div className="flex flex-col items-center justify-center h-96 px-6">
@@ -45,10 +50,11 @@ export default function Cart() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
+      {/* Enhanced Header */}
       <Navbar
         title="Cart"
         showBack={true}
+        onBackClick={handleBackClick}
       />
 
       <div className="p-6">

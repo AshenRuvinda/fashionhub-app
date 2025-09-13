@@ -18,6 +18,7 @@ export default function Details() {
   const [selectedSize, setSelectedSize] = useState('L');
   const [selectedColor, setSelectedColor] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
     const foundProduct = getProduct(id);
@@ -36,6 +37,15 @@ export default function Details() {
       addToCart(product, selectedSize, 1, selectedColor);
       navigate('/cart');
     }
+  };
+
+  const handleBackClick = () => {
+    navigate('/home');
+  };
+
+  const handleFavoriteClick = () => {
+    setIsFavorite(!isFavorite);
+    // You can add logic here to save to favorites
   };
 
   const handleColorSelect = (color) => {
@@ -76,11 +86,17 @@ export default function Details() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
+      {/* Enhanced Header */}
       <Navbar
         title="Details"
         showBack={true}
-        rightIcon={<Heart className="w-5 h-5" />}
+        onBackClick={handleBackClick}
+        rightIcon={
+          <Heart 
+            className={`w-6 h-6 ${isFavorite ? 'fill-red-500 text-red-500' : 'text-gray-700'}`} 
+          />
+        }
+        onRightIconClick={handleFavoriteClick}
       />
 
       <div className="px-6 py-8">
@@ -144,7 +160,7 @@ export default function Details() {
 
         {/* Price and Add to Cart */}
         <AddToCartButton
-          price={`${product.price.toFixed(2)}`}
+          price={`$${product.price.toFixed(2)}`}
           onAddToCart={handleAddToCart}
         />
       </div>

@@ -5,7 +5,7 @@ import { useProducts } from '../context/ProductsContext';
 import { useCart } from '../context/CartContext';
 import CategoryTabs from '../components/home/CategoryTabs';
 import ProductGrid from '../components/home/ProductGrid';
-import Navbar from '../components/common/Navbar'; // Import the enhanced Navbar
+import Navbar from '../components/common/Navbar';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -34,31 +34,26 @@ export default function Home() {
 
   const cartItemsCount = getTotalItems();
 
-  // Custom left icon for the navbar (Menu + Search)
-  const LeftNavContent = () => (
-    <div className="flex items-center gap-3">
-      <button 
-        onClick={handleMenuClick}
-        className="p-1 hover:bg-gray-100 rounded-full transition-colors"
-      >
-        <Menu className="w-6 h-6 text-gray-700" />
-      </button>
-      <button 
-        onClick={handleSearchClick}
-        className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
-      >
-        <Search className="w-5 h-5 text-gray-600" />
-      </button>
-    </div>
-  );
-
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Enhanced Navbar */}
+      {/* Enhanced Navbar with custom left content */}
       <Navbar
-        leftContent={<LeftNavContent />}
-        showNotification={false}
-        className="px-6"
+        leftContent={
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={handleMenuClick}
+              className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+            >
+              <Menu className="w-6 h-6 text-gray-700" />
+            </button>
+            <button 
+              onClick={handleSearchClick}
+              className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
+            >
+              <Search className="w-5 h-5 text-gray-600" />
+            </button>
+          </div>
+        }
       />
 
       {/* Main Content */}
