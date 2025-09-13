@@ -4,6 +4,7 @@ import { Heart, Star } from 'lucide-react';
 import { useProducts } from '../context/ProductsContext';
 import { useCart } from '../context/CartContext';
 import Navbar from '../components/common/Navbar';
+import BottomNavigation from '../components/common/BottomNavigation';
 import ProductImage from '../components/details/ProductImage';
 import SizeSelector from '../components/details/SizeSelector';
 import AddToCartButton from '../components/details/AddToCartButton';
@@ -99,7 +100,7 @@ export default function Details() {
         onRightIconClick={handleFavoriteClick}
       />
 
-      <div className="px-6 py-8">
+      <div className="px-6 py-8 pb-24"> {/* Added bottom padding for navigation */}
         {/* Product Image */}
         <ProductImage 
           product={product}
@@ -164,6 +165,8 @@ export default function Details() {
           onAddToCart={handleAddToCart}
         />
       </div>
+
+      <BottomNavigation />
     </div>
   );
 }

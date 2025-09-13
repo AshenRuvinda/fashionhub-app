@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ShoppingBag, ShoppingCart } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import Navbar from '../components/common/Navbar';
+import BottomNavigation from '../components/common/BottomNavigation';
 import OrderItem from '../components/cart/OrderItem';
 import Button from '../components/common/Button';
 import Card from '../components/common/Card';
@@ -34,7 +35,7 @@ export default function Cart() {
           onBackClick={handleBackClick}
         />
         
-        <div className="flex flex-col items-center justify-center h-96 px-6">
+        <div className="flex flex-col items-center justify-center h-96 px-6 pb-24">
           <div className="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center mb-4">
             <ShoppingCart className="w-10 h-10 text-gray-400" />
           </div>
@@ -44,6 +45,8 @@ export default function Cart() {
             Continue Shopping
           </Button>
         </div>
+        
+        <BottomNavigation />
       </div>
     );
   }
@@ -57,7 +60,7 @@ export default function Cart() {
         onBackClick={handleBackClick}
       />
 
-      <div className="p-6">
+      <div className="p-6 pb-24"> {/* Added bottom padding for navigation */}
         {/* Title */}
         <h1 className="text-2xl font-bold text-gray-900 mb-6">My Orders</h1>
 
@@ -102,6 +105,8 @@ export default function Cart() {
           Checkout Now
         </Button>
       </div>
+
+      <BottomNavigation />
     </div>
   );
 }
