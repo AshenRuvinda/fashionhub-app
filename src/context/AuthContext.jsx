@@ -30,7 +30,9 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     setIsLoading(true);
     try {
-      // Simulate API call
+      // Simulate API call - in a real app, you'd validate the password here
+      console.log('Authenticating user:', email, password);
+      
       const userData = {
         id: 1,
         name: 'John Doe',
@@ -51,7 +53,9 @@ export const AuthProvider = ({ children }) => {
   const register = async (name, email, password) => {
     setIsLoading(true);
     try {
-      // Simulate API call
+      // Simulate API call - in a real app, you'd create account with the password
+      console.log('Creating account for:', name, email, password);
+      
       const userData = {
         id: 1,
         name: name,
