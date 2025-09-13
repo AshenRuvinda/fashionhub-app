@@ -1,23 +1,25 @@
 import React from 'react';
-import { Plus } from 'lucide-react';
-import Card from '../common/Card';
-import PriceTag from '../common/PriceTag';
+import { ShoppingBag } from 'lucide-react';
 
 const ProductCard = ({ 
   product, 
   onAddToCart, 
   onClick,
-  className = '' 
+  className = ''
 }) => {
+  // Real fashion images from the internet - curated for better quality
   const getProductImage = (type) => {
-    const colors = {
-      shirt1: 'from-orange-200 to-orange-300',
-      court: 'from-red-200 to-red-300',
-      shirt2: 'from-orange-200 to-orange-300',
-      court2: 'from-yellow-200 to-yellow-300',
-      coat: 'from-yellow-200 to-yellow-300'
+    const images = {
+      shirt1: 'https://images.unsplash.com/photo-1564557287817-3785e38ec1f5?w=400&h=600&fit=crop&crop=center&q=80',
+      court: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&h=600&fit=crop&crop=center&q=80',
+      shirt2: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&h=600&fit=crop&crop=center&q=80',
+      court2: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=600&fit=crop&crop=center&q=80',
+      coat: 'https://images.unsplash.com/photo-1544022613-e87ca75a784a?w=400&h=600&fit=crop&crop=center&q=80',
+      blazer1: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=600&fit=crop&crop=center&q=80',
+      casual1: 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=400&h=600&fit=crop&crop=center&q=80',
+      coat2: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=600&fit=crop&crop=center&q=80'
     };
-    return colors[type] || 'from-gray-200 to-gray-300';
+    return images[type] || 'https://images.unsplash.com/photo-1564557287817-3785e38ec1f5?w=400&h=600&fit=crop&crop=center&q=80';
   };
 
   const formatPrice = (price) => {
@@ -48,63 +50,90 @@ const ProductCard = ({
   };
 
   return (
-    <Card 
-      hover 
+    <div 
       onClick={handleCardClick}
-      className={`p-4 cursor-pointer ${className}`}
+      className={`bg-white cursor-pointer transition-all duration-300 hover:shadow-lg ${className} relative`}
+      style={{
+        borderRadius: '50px', // 50px border radius as requested
+        overflow: 'hidden'
+      }}
     >
-      {/* Product Image */}
-      <div className={`w-full h-32 bg-gradient-to-br ${getProductImage(product.image)} rounded-xl mb-3 relative`}>
-        {/* Mock product visualization */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-16 h-20 bg-white bg-opacity-30 rounded-lg"></div>
-        </div>
+      {/* Product Image Container - 4/6 (66.67%) of the card */}
+      <div className="relative w-full" style={{ height: '66.67%' }}>
+        <img 
+          src={getProductImage(product.image)}
+          alt={product.name}
+          className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+          style={{
+            borderTopLeftRadius: '50px',
+            borderTopRightRadius: '50px'
+          }}
+          onError={(e) => {
+            // Fallback gradient if image fails to load
+            e.target.style.display = 'none';
+            e.target.nextSibling.style.display = 'flex';
+          }}
+        />
         
-        {/* Add to Cart Button */}
-        <button 
-          onClick={handleAddToCart}
-          className="add-to-cart-btn absolute bottom-2 right-2 w-8 h-8 bg-black text-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors z-10"
-          title="Add to cart"
+        {/* Fallback gradient background */}
+        <div 
+          className="absolute inset-0 bg-gradient-to-br from-stone-100 via-stone-200 to-stone-300 hidden items-center justify-center"
+          style={{ 
+            display: 'none',
+            borderTopLeftRadius: '50px',
+            borderTopRightRadius: '50px'
+          }}
         >
-          <Plus className="w-4 h-4" />
-        </button>
+          <div className="w-20 h-24 bg-white bg-opacity-40 rounded-2xl"></div>
+        </div>
       </div>
       
-      {/* Product Info */}
-      <div className="space-y-1">
-        <h3 className="font-semibold text-gray-900 text-sm line-clamp-2 mb-1" title={product.name}>
-          {product.name}
-        </h3>
-        
-        <div className="flex items-center justify-between">
-          <PriceTag price={formatPrice(product.price)} size="sm" />
-          
-          {/* Category badge */}
-          <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
-            {product.category}
+      {/* Product Info Container - 2/6 (33.33%) of the card */}
+      <div className="h-1/3 px-6 py-4 flex flex-col justify-center">
+        {/* Price - Large, bold text */}
+        <div className="mb-2">
+          <span 
+            className="font-bold text-black"
+            style={{ 
+              fontSize: '24px',
+              lineHeight: '1.1',
+              fontWeight: '700'
+            }}
+          >
+            {formatPrice(product.price)}
           </span>
         </div>
         
-        {/* Rating (if available) */}
-        {product.rating && (
-          <div className="flex items-center gap-1">
-            <div className="flex">
-              {[...Array(5)].map((_, i) => (
-                <span
-                  key={i}
-                  className={`text-xs ${
-                    i < Math.floor(product.rating) ? 'text-orange-400' : 'text-gray-300'
-                  }`}
-                >
-                  ★
-                </span>
-              ))}
-            </div>
-            <span className="text-xs text-gray-500">({product.rating})</span>
-          </div>
-        )}
+        {/* Product Name - Gray text below price */}
+        <h3 
+          className="text-gray-600 font-normal"
+          style={{
+            fontSize: '16px',
+            lineHeight: '1.2',
+            fontWeight: '400'
+          }}
+          title={product.name}
+        >
+          {product.name}
+        </h3>
       </div>
-    </Card>
+
+      {/* Add to Cart Button - Small shopping bag icon at the border */}
+      <button 
+        onClick={handleAddToCart}
+        className="add-to-cart-btn absolute w-10 h-10 bg-black text-white flex items-center justify-center hover:bg-gray-800 transition-all duration-200"
+        style={{
+          borderRadius: '50%',
+          top: '66.67%', // Positioned at the 4/6 mark (border between sections)
+          right: '20px',
+          transform: 'translateY(-50%)', // Center the button on the border
+          zIndex: 10
+        }}
+        title="Add to cart"
+      >
+        <ShoppingBag className="w-4 h-4 stroke-2" />
+      </button>
+    </div>
   );
 };
 

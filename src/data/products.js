@@ -2,8 +2,8 @@
 export const products = [
     {
       id: 1,
-      name: 'Premium Togerine Shirt eka',
-      price: 257.85,
+      name: 'Togerine Shirt',
+      price: 240.32,
       originalPrice: 300.00,
       image: 'shirt1',
       category: 'Women',
@@ -16,7 +16,7 @@ export const products = [
     },
     {
       id: 2,
-      name: 'Leather Court Jacket',
+      name: 'Leather Court',
       price: 325.36,
       originalPrice: 380.00,
       image: 'court',
@@ -30,7 +30,7 @@ export const products = [
     },
     {
       id: 3,
-      name: 'Casual Togerine Shirt',
+      name: 'Togerine Shirt',
       price: 126.47,
       originalPrice: 150.00,
       image: 'shirt2',
@@ -44,7 +44,7 @@ export const products = [
     },
     {
       id: 4,
-      name: 'Designer Leather Court',
+      name: 'Leather Court',
       price: 257.85,
       originalPrice: 295.00,
       image: 'court2',
@@ -58,7 +58,7 @@ export const products = [
     },
     {
       id: 5,
-      name: 'Vintage Denim Jacket',
+      name: 'Vintage Blazer',
       price: 189.99,
       originalPrice: 220.00,
       image: 'coat',
@@ -67,7 +67,49 @@ export const products = [
       sizes: ['S', 'M', 'L', 'XL'],
       rating: 4.4,
       reviews: 89,
-      description: 'Classic vintage style denim jacket. Timeless design with durable construction and comfortable fit.',
+      description: 'Classic vintage style blazer. Timeless design with durable construction and comfortable fit.',
+      inStock: true
+    },
+    {
+      id: 6,
+      name: 'Cotton Blazer',
+      price: 178.50,
+      originalPrice: 210.00,
+      image: 'blazer1',
+      category: 'Women',
+      colors: ['beige', 'white', 'navy'],
+      sizes: ['S', 'M', 'L', 'XL'],
+      rating: 4.2,
+      reviews: 64,
+      description: 'Elegant cotton blazer perfect for professional and casual occasions.',
+      inStock: true
+    },
+    {
+      id: 7,
+      name: 'Casual Shirt',
+      price: 98.75,
+      originalPrice: 120.00,
+      image: 'casual1',
+      category: 'Men',
+      colors: ['white', 'blue', 'gray'],
+      sizes: ['S', 'M', 'L', 'XL', 'XXL'],
+      rating: 4.1,
+      reviews: 156,
+      description: 'Comfortable casual shirt for everyday wear with premium cotton fabric.',
+      inStock: true
+    },
+    {
+      id: 8,
+      name: 'Designer Coat',
+      price: 445.20,
+      originalPrice: 520.00,
+      image: 'coat2',
+      category: 'Unisex',
+      colors: ['black', 'gray', 'camel'],
+      sizes: ['M', 'L', 'XL'],
+      rating: 4.8,
+      reviews: 42,
+      description: 'Luxury designer coat with premium materials and exceptional craftsmanship.',
       inStock: true
     }
   ];
