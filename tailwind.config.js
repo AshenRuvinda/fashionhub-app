@@ -2,10 +2,13 @@
 module.exports = {
     content: [
       "./public/index.html",
-      "./src/**/*.{js,jsx,ts,tsx}", // Updated to include all file types
+      "./src/**/*.{js,jsx,ts,tsx}",
     ],
     theme: {
       extend: {
+        fontFamily: {
+          'sans': ['Imprima', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+        },
         colors: {
           'orange': {
             50: '#fff7ed',

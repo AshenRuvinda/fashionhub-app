@@ -103,14 +103,7 @@ export default function Home() {
           className="mb-6"
         />
 
-        {/* Products Count */}
-        {!isLoading && filteredProducts && (
-          <div className="mb-4">
-            <p className="text-sm text-gray-600">
-              {filteredProducts.length} product{filteredProducts.length !== 1 ? 's' : ''} found
-            </p>
-          </div>
-        )}
+        
 
         {/* Loading State */}
         {isLoading ? (

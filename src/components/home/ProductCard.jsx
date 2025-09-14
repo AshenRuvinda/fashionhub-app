@@ -10,16 +10,16 @@ const ProductCard = ({
   // Real fashion images from the internet - curated for better quality
   const getProductImage = (type) => {
     const images = {
-      shirt1: 'https://images.unsplash.com/photo-1564557287817-3785e38ec1f5?w=400&h=600&fit=crop&crop=center&q=80',
-      court: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&h=600&fit=crop&crop=center&q=80',
-      shirt2: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&h=600&fit=crop&crop=center&q=80',
-      court2: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=600&fit=crop&crop=center&q=80',
-      coat: 'https://images.unsplash.com/photo-1544022613-e87ca75a784a?w=400&h=600&fit=crop&crop=center&q=80',
-      blazer1: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=600&fit=crop&crop=center&q=80',
-      casual1: 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=400&h=600&fit=crop&crop=center&q=80',
-      coat2: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=600&fit=crop&crop=center&q=80'
+      shirt1: 'https://dfcdn.defacto.com.tr/6/Y7677AZ_22SM_BN132_03_02.jpg',
+      court: 'https://dfcdn.defacto.com.tr/6/Y7677AZ_22SM_BN132_03_02.jpg',
+      shirt2: 'https://dfcdn.defacto.com.tr/6/Y7677AZ_22SM_BN132_03_02.jpg',
+      court2: 'https://dfcdn.defacto.com.tr/6/Y7677AZ_22SM_BN132_03_02.jpg',
+      coat: 'https://dfcdn.defacto.com.tr/6/Y7677AZ_22SM_BN132_03_02.jpg',
+      blazer1: 'https://dfcdn.defacto.com.tr/6/Y7677AZ_22SM_BN132_03_02.jpg',
+      casual1: 'https://dfcdn.defacto.com.tr/6/Y7677AZ_22SM_BN132_03_02.jpg',
+      coat2: 'https://dfcdn.defacto.com.tr/6/Y7677AZ_22SM_BN132_03_02.jpg'
     };
-    return images[type] || 'https://images.unsplash.com/photo-1564557287817-3785e38ec1f5?w=400&h=600&fit=crop&crop=center&q=80';
+    return images[type] || 'https://dfcdn.defacto.com.tr/6/Y7677AZ_22SM_BN132_03_02.jpg';
   };
 
   const formatPrice = (price) => {
